@@ -1,0 +1,26 @@
+const { Paginator,
+  Collection,
+  Model,
+  Builder,
+  Attribute,
+  CastsAttributes,
+  Scope,
+  SoftDeletes,
+  compose,
+  utils,
+  Errors,
+} = require('sutando');
+
+module.exports = {
+  Paginator,
+  Collection,
+  Model,
+  Builder,
+  Attribute,
+  CastsAttributes,
+  Scope,
+  SoftDeletes,
+  compose,
+  ...Errors,
+  ...utils,
+};
