@@ -1,22 +1,24 @@
-const { sutando, Model } = require('sutando');
+const { sutando } = require('sutando');
 const path = require('path');
-const fs = require('fs');
 const _ = require('lodash/string');
 
 module.exports = app => {
   app.addSingleton('sutando', createOneClient);
 };
 
-function createOneClient(config, app) {
-  console.log(config)
+async function createOneClient(config, app) {
+  // 异步获取 mysql 配置
+  const sutandoConfig = await app.config.sutando;
+  const isMulti = sutandoConfig.client == null;
   const customName = config.name || config.connection.database;
-  console.log(customName)
   // 创建实例
+  console.log(config);
   sutando.addConnection(config, customName);
   const db = sutando.connection(customName);
   // 做启动应用前的检查
   app.beforeStart(async () => {
-    loadModelToApp(app, customName);
+    // 如果是多实例，只加载model文件夹中对应db名称的模型
+    loadModelToApp(app, isMulti ? customName : null);
 
     app[customName] = db;
 
@@ -26,26 +28,20 @@ function createOneClient(config, app) {
     );
   });
 
-  return sutando;
+  return db;
 }
 
 function loadModelToApp(app, customName) {
-  const dir = path.join(app.config.baseDir, 'app/model');
+  let dirName = 'app/model';
+  if (customName) {
+    dirName += '/' + customName;
+  }
+  let injectName = 'model';
+  if (customName) {
+    injectName =  _.lowerFirst(customName) + 'Model';
+  }
+  const dir = path.join(app.config.baseDir, dirName);
 
-  app.loader.loadToApp(dir, 'model', {
-    inject: app,
-    caseStyle: 'upper',
-    filter(model) {
-      return typeof model === 'function' && model.prototype instanceof Model;
-    },
-  });
-
-  // const customDir = path.join(app.config.baseDir, 'app/model/' + customName);
-  // app.loader.loadToApp(customDir, _.lowerFirst(customName) + 'Model', {
-  //   inject: app,
-  //   caseStyle: 'upper',
-  //   filter(model) {
-  //     return typeof model === 'function' && model.prototype instanceof Model;
-  //   },
-  // });
+  console.log(dir);
+  app.loader.loadToApp(dir, injectName);
 }
