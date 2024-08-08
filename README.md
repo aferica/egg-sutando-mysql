@@ -1,4 +1,4 @@
-# egg-sutando
+# egg-sutando-mysql
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -20,9 +20,6 @@
 [download-image]: https://img.shields.io/npm/dm/egg-sutando.svg?style=flat-square
 [download-url]: https://npmjs.org/package/egg-sutando
 
-<!--
-Description here.
--->
 
 ## Install
 
@@ -101,7 +98,7 @@ await this.app.db1.table('users').first();
 ### By Model
 app/model/user.js
 ``` js
-const { Model } = require('egg-sutando-mysql');
+const { Model } = require('sutando');
 
 class User extends Model {
   perPage = 20;

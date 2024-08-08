@@ -48,12 +48,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eggjs/egg-sutando.git"
+    "url": "git+https://github.com/aferica/egg-sutando-mysql.git"
   },
   "bugs": {
-    "url": "https://github.com/eggjs/egg/issues"
+    "url": "https://github.com/aferica/egg-sutando-mysql/issues"
   },
-  "homepage": "https://github.com/eggjs/egg-sutando#readme",
+  "homepage": "https://github.com/aferica/egg-sutando-mysql#readme",
   "author": "aferica",
   "license": "MIT"
 }
