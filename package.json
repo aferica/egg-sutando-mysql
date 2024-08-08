@@ -1,6 +1,6 @@
 {
   "name": "egg-sutando-mysql",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "egg集成sutando的插件",
   "eggPlugin": {
     "name": "sutando-mysql"
