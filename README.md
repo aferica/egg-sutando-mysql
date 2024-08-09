@@ -17,6 +17,9 @@ $ npm i egg-sutando-mysql --save
 
 ## Usage
 
+本插件是对[sutando](https://sutando.org/zh_CN/)的封装，用于egg开发
+具体的使用文档可以查看[sutando文档](https://sutando.org/zh_CN/)
+
 ```js
 // {app_root}/config/plugin.js
 exports.sutando = {
@@ -33,14 +36,11 @@ exports.sutando = {
 exports.sutando = {
   client: {
     // name: 'db1', 如果不传，则使用database的值
-    client: 'mysql2',
-    connection: {
-      host: '127.0.0.1',
-      port: 3306,
-      user: 'root',
-      password: 123456,
-      database: 'db1',
-    },
+    host: '127.0.0.1',
+    port: 3306,
+    user: 'root',
+    password: 123456,
+    database: 'db1',
   },
 };
 ```
@@ -51,25 +51,19 @@ exports.sutando = {
   clients: {
     db1: {
       // name: 'db1', 如果不传，则使用database的值
-      client: 'mysql2',
-      connection: {
-        host: '127.0.0.1',
-        port: 3306,
-        user: 'root',
-        password: 123456,
-        database: 'db1',
-      },
+      host: '127.0.0.1',
+      port: 3306,
+      user: 'root',
+      password: 123456,
+      database: 'db1',
     },
     db2: {
       // name: 'db2', 如果不传，则使用database的值
-      client: 'mysql2',
-      connection: {
-        host: '127.0.0.1',
-        port: 3306,
-        user: 'root',
-        password: 123456,
-        database: 'db2',
-      },
+      host: '127.0.0.1',
+      port: 3306,
+      user: 'root',
+      password: 123456,
+      database: 'db2',
     },
   },
 };
@@ -84,13 +78,14 @@ await this.app.db1.table('users').first();
 ```
 
 ### By Model
+
 app/model/user.js
 ``` js
 const { Model } = require('sutando');
 
 class User extends Model {
   perPage = 20;
-  connection = 'db1';
+  connection = 'db1';  // 使用config配置中的name
 }
 
 module.exports = User;
@@ -98,6 +93,9 @@ module.exports = User;
 app/service/user.js
 ``` js
 await this.model.User.query();
+
+// 支持多层级，假如user.js目录是 app/model/user/user.js
+await this.model.User.User.query(); // 模型名和层级名使用 需要首字母大写
 ```
 
 ## Questions & Suggestions
