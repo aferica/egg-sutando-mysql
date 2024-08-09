@@ -10,28 +10,31 @@ exports.sutando = {
 
     // Single Database
     // client: {
-    //   host: 'host',
-    //   port: 'port',
-    //   user: 'user',
-    //   password: 'password',
-    //   database: 'database',
+    //   // name: 'db1', 如果不传，则使用database的值、
+    //   host: '127.0.0.1',
+    //   port: 3306,
+    //   user: 'root',
+    //   password: 123456,
+    //   database: 'db1',
     // },
 
     // Multi Databases
     // clients: {
     //   db1: {
-    //     host: 'host',
-    //     port: 'port',
-    //     user: 'user',
-    //     password: 'password',
-    //     database: 'database',
+    //     // name: 'db1', 如果不传，则使用database的值
+    //     host: '127.0.0.1',
+    //     port: 3306,
+    //     user: 'root',
+    //     password: 123456,
+    //     database: 'db1',
     //   },
     //   db2: {
-    //     host: 'host',
-    //     port: 'port',
-    //     user: 'user',
-    //     password: 'password',
-    //     database: 'database',
+    //     // name: 'db2', 如果不传，则使用database的值
+    //     host: '127.0.0.1',
+    //     port: 3306,
+    //     user: 'root',
+    //     password: 123456,
+    //     database: 'db2',
     //   },
     // },
   },

@@ -1,38 +1,35 @@
-const { sutando, Model } = require('sutando');
+const { sutando } = require('sutando');
 const path = require('path');
 
 module.exports = app => {
+  loadModelToApp(app);
   app.addSingleton('sutando', createOneClient);
 };
 
-function createOneClient(config, app) {
-  const name = config.name || config.connection.database;
+async function createOneClient(config, app) {
+  const customName = config.name || config.database;
   // 创建实例
-  sutando.addConnection(config, name);
-  const db = sutando.connection(name);
+  const clientConfig = {
+    client: 'mysql2',
+    connection: config
+  }
+  sutando.addConnection(clientConfig, customName);
+  const db = sutando.connection(customName);
   // 做启动应用前的检查
   app.beforeStart(async () => {
-    loadModelToApp(app);
-
-    app[name] = db;
-
+    app[customName] = db;
     const rows = await db.table().select(db.raw('now() as currentTime')).first();
     console.log(
-      `[egg-sutando-mysql] init ${name} instance success, mysql currentTime: ${rows.currentTime}`
+      `[egg-sutando-mysql] init ${customName} instance success, mysql currentTime: ${rows.currentTime}`
     );
   });
 
-  return sutando;
+  return db;
 }
 
 function loadModelToApp(app) {
   const dir = path.join(app.config.baseDir, 'app/model');
-
   app.loader.loadToApp(dir, 'model', {
-    inject: app,
     caseStyle: 'upper',
-    filter(model) {
-      return typeof model === 'function' && model.prototype instanceof Model;
-    },
   });
 }
