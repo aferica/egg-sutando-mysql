@@ -8,6 +8,7 @@ module.exports = app => {
 
 async function createOneClient(config, app) {
   const customName = config.name || config.database;
+  delete config.name;
   // 创建实例
   const clientConfig = {
     client: 'mysql2',
